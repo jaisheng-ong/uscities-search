@@ -7,7 +7,10 @@ var searchInput = document.getElementById('searchInput');
 var searchBtn = document.getElementById('searchBtn');
 var debugOutput = document.getElementBId('debugOutput');
 
-searchBtn.addEventListener('click', performSearch);
+searchBtn.addEventListener('click', () =>{
+  performSearch();
+  searchInput.value = '';
+});
 
 searchInput.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
