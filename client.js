@@ -5,9 +5,9 @@
 
 var searchInput = document.getElementById('searchInput');
 var searchBtn = document.getElementById('searchBtn');
-var debugOutput = document.getElementById('debugOutput');
+var debugOutput = document.getElementBId('debugOutput');
 
-$('#searchBtn').on('click', performSearch);
+searchBtn.addEventListener('click', performSearch);
 
 searchInput.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
@@ -16,25 +16,23 @@ searchInput.addEventListener('keypress', function (e) {
 });
 
 function performSearch() {
+
   var rawValue = searchInput.value.trim();
-  var safeValue = DOMPurify.sanitize(rawValue).trim();
+  var safeValue = encodeHTML(rawValue).trim();
 
   if (!safeValue) {
     printDebug('Error: Search Input is empty.');
     searchInput.focus();
     return;
   }
-
   console.log('Debug>query: ' + safeValue);
-
-  printDebug([
-    'Search triggered.',
-    'Input value: ' + safeValue,
-    'Input length: ' + safeValue.length,
-    'Timestamp: ' + new Date().toLocaleString()
-  ].join('\n'));
 }
 
-function printDebug(message) {
-  debugOutput.textContent = message;
+function encodeHTML(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
