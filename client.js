@@ -5,7 +5,6 @@
 
 var searchInput = document.getElementById('searchInput');
 var searchBtn = document.getElementById('searchBtn');
-var debugOutput = document.getElementBId('debugOutput');
 
 searchBtn.addEventListener('click', () =>{
   performSearch();
@@ -15,6 +14,7 @@ searchBtn.addEventListener('click', () =>{
 searchInput.addEventListener('keypress', function (e) {
   if (e.key === 'Enter') {
     performSearch();
+    searchInput.value = '';
   }
 });
 
@@ -24,7 +24,6 @@ function performSearch() {
   var safeValue = encodeHTML(rawValue).trim();
 
   if (!safeValue) {
-    printDebug('Error: Search Input is empty.');
     searchInput.focus();
     return;
   }
