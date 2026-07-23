@@ -82,4 +82,4 @@ function encodeHTML(text) {
     .replace(/'/g, '&#39;');
 }
 
-// Test w/ `python -m http.server 808`
+// Test w/ `python -m http.server 8080`
