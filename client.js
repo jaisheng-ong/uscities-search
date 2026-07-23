@@ -54,7 +54,11 @@ async function performSearch() {
 
   } catch (err) {
     console.log(`Debug>Search Error: ${err.message}`);
-    responses.textContent = 'Error: Couldnt Load Results'; // AC4 & AC11
+    
+    if (responseElm) {
+      responseElm.textContent = 'Error: Couldnt Load Results'; // AC4 & AC11
+    }
+
   }
 }
 
@@ -69,7 +73,7 @@ function displaySearch(data) {
   // condition: if typeof v == 'string'
   // valueIfTrue: Run through DOMPurify.sanitize(v)
   // valueIfFalse: Return empty string
-  
+}
 // AC9/AC10: sanitize every field before it is rendered as HTML
 function data_sanitize(v) {
 
