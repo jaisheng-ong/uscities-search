@@ -3,6 +3,8 @@
  * USCities Search — client.js
  * ============================================================================= */
 
+// Test w/ `python -m http.server 8080`
+
 var searchInput = document.getElementById('searchInput');
 var searchBtn = document.getElementById('searchBtn');
 
@@ -52,44 +54,46 @@ async function performSearch() {
 
   } catch (err) {
     console.log(`Debug>Search Error: ${err.message}`);
-    if (responseElm) { // AC4 & AC11
-      responseElm.textContent = 'Error: Couldnt Load Results';
-    }
+    responses.textContent = 'Error: Couldnt Load Results'; // AC4 & AC11
   }
 }
 
 var responseElm = document.getElementById('responses');
-
 function displaySearch(data) {
   if (!responseElm) {
     console.log('Error: Unable to get "responses".');
     return;
   }
 
-  responseElm.innerHTML = '';
+  // condition ? valueIfTrue : valueIfFalse
+  // condition: if typeof v == 'string'
+  // valueIfTrue: Run through DOMPurify.sanitize(v)
+  // valueIfFalse: Return empty string
+  
+// AC9/AC10: sanitize every field before it is rendered as HTML
+function data_sanitize(v) {
 
-  if (data.length === 0) {
-    responseElm.textContent = 'No Cities Found';
-    return;
+  // if input is string run through DOMPurify
+  return DOMPurify.sanitize(typeof v === 'string' ? v : '');
+}
+
+function json2htmltable(data) {
+
+  // check if input is non-empty Array.
+  if (!Array.isArray(data) || data.length === 0) {
+    return "No cities found"; // AC10/AC11
   }
 
-  data.forEach(function (city) {
-    var cityBlock = document.createElement('div');
-    cityBlock.className = 'city-result border rounded p-3 mb-3 bg-light';
 
-    for (var key in city) {
-      if (!Object.prototype.hasOwnProperty.call(city, key)) {
-        continue;
-      }
+  var rows = data.map(function (c) {
+      return "<tr><td>" + data_sanitize(c.city) + "</td><td>" + data_sanitize(c.state_name) +
+          "</td><td>" + data_sanitize(c.zips) + "</td></tr>";
+  }).join('');
 
-      var line = document.createElement('div');
-      line.textContent = key + ': ' + city[key];
-      cityBlock.appendChild(line);
-    }
-
-    responseElm.appendChild(cityBlock);
-  });
+  return "<table><tr><th>City</th><th>State</th><th>Zips</th></tr>" + rows + "</table>";
 }
+
+
 
 function encodeHTML(text) {
   return String(text)
@@ -99,5 +103,3 @@ function encodeHTML(text) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
-
-// Test w/ `python -m http.server 8080`
