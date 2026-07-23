@@ -18,7 +18,8 @@ searchInput.addEventListener('keypress', function (e) {
   }
 });
 
-const BASE_URL = "https://ongjs-uscitties-microservices-f9awfuekdsg6dah6.canadacentral-01.azurewebsites.net/";
+const BASE_URL_AZURE = "https://ongjs-uscitties-microservices-f9awfuekdsg6dah6.canadacentral-01.azurewebsites.net/";
+const BASE_URL_RENDER = "https://uscitties-microservices.onrender.com/"
 async function performSearch() {
 
   var rawQuery = searchInput.value.trim();
@@ -33,7 +34,7 @@ async function performSearch() {
 
 
   try {
-    const response = await fetch(`${BASE_URL}/uscities-search/${encodeURIComponent(rawQuery)}`) // search request, must remain rawQuery
+    const response = await fetch(`${BASE_URL_RENDER}/uscities-search/${encodeURIComponent(rawQuery)}`) // search request, must remain rawQuery
 
     // Server returned HTTP Error: 404 or 500
     if (!response.ok) {
