@@ -56,8 +56,8 @@ async function performSearch() {
 }
 
 var responseElm = document.getElementById('responses');
-function displaySearch() {
-  if (!responsesElm) {
+function displaySearch(data) {
+  if (!responseElm) {
     console.log('Error: Unable to get "responses".');
     return;
   }
@@ -70,7 +70,7 @@ function displaySearch() {
   // condition: if data.length == 0
   // valueIfTrue: Display 'No Cities Found'
   // valueIfFalse: Convert 'data' into formatted JSON and display
-  responsesElm.textContent = data.length == 0 ? 'No Cities Found' : JSON.stringify(data, null, 2) 
+  responseElm.textContent = data.length == 0 ? 'No Cities Found' : JSON.stringify(data, null, 2) 
 }
 
 function encodeHTML(text) {
