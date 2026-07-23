@@ -13,9 +13,11 @@ searchBtn.addEventListener('click', () =>{
   searchInput.value = ''; // clear field input box after perform search
 });
 
-searchInput.addEventListener('keypress', function (e) {
+searchInput.addEventListener('keyup', function (e) {
+  
+  performSearch(); // perform search on every key press
   if (e.key === 'Enter') {
-    performSearch();
+    //performSearch(); // perform search only 'Search' button is clicked
     searchInput.value = '';
   }
 });
