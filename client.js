@@ -8,7 +8,7 @@ var searchBtn = document.getElementById('searchBtn');
 
 searchBtn.addEventListener('click', () =>{
   performSearch();
-  searchInput.value = '';
+  searchInput.value = ''; // clear field input box after perform search
 });
 
 searchInput.addEventListener('keypress', function (e) {
@@ -23,11 +23,15 @@ function performSearch() {
   var rawValue = searchInput.value.trim();
   var safeValue = encodeHTML(rawValue).trim();
 
-  if (!safeValue) {
+  if (!safeValue) { // AC-02.2: Empty messages are ignored
     searchInput.focus();
     return;
   }
-  console.log('Debug>query: ' + safeValue);
+  console.log('Debug>query: ' + safeValue); // UI Testing
+}
+
+function displaySearch() {
+  // 27:31
 }
 
 function encodeHTML(text) {
