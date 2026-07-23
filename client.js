@@ -37,7 +37,7 @@ async function performSearch() {
 
 
   try {
-    const response = await fetch(`${BASE_URL_RENDER}uscities-search/${encodeURIComponent(rawQuery)}`) // search request, must remain rawQuery
+    const response = await fetch(`${BASE_URL_AZURE}uscities-search/${encodeURIComponent(rawQuery)}`) // search request, must remain rawQuery
 
     // Server returned HTTP Error: 404 or 500
     if (!response.ok) {
@@ -69,15 +69,9 @@ function displaySearch(data) {
     console.log('Error: Unable to get "responses".');
     return;
   }
-  // AC1 & AC2: Matches Found - This version only shows raw JSON text
-  // AC3: No Macthes - Explicit Message instead of a blank/empty display
-  // textContent for now
-
-  // condition ? valueIfTrue : valueIfFalse
-  // condition: if data.length == 0
-  // valueIfTrue: Display 'No Cities Found'
-  // valueIfFalse: Convert 'data' into formatted JSON and display
-  responseElm.textContent = data.length == 0 ? 'No Cities Found' : JSON.stringify(data, null, 2) 
+  // AC1 & AC2: Matches Found — render as HTML table
+  // AC3: No Matches — explicit message instead of blank display
+  responseElm.innerHTML = json2htmltable(data);
 }
 // AC9/AC10: sanitize every field before it is rendered as HTML
 function data_sanitize(v) {
