@@ -13,13 +13,22 @@ searchBtn.addEventListener('click', () =>{
   searchInput.value = ''; // clear field input box after perform search
 });
 
+// Instant Ajax Timer -  At LEAST 2 CHARACTERS BEFORE SUGGESTING and debounce ~300 ms after last keystroke
+var debounceTimer = null;
 searchInput.addEventListener('keyup', function (e) {
-  
-  performSearch(); // perform search on every key press
   if (e.key === 'Enter') {
-    //performSearch(); // perform search only 'Search' button is clicked
+    clearTimeout(debounceTimer);
+    performSearch(); // perform search only 'Search' button is clicked
     searchInput.value = '';
+    return;
   }
+  clearTimeout(debounceTimer);
+  var rawQuery = searchInput.value.trim();
+  if (rawQuery < 2) { // AC5: At least 2 chars before suggesting
+    return;
+  }
+  debounceTimer = setTimeout(performSearch, 300) // AC07: debouce ~300ms after last keystroke
+
 });
 
 const BASE_URL_AZURE = "https://ongjs-uscitties-microservices-f9awfuekdsg6dah6.canadacentral-01.azurewebsites.net/";
