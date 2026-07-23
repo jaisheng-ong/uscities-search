@@ -51,26 +51,43 @@ async function performSearch() {
 
   } catch (err) {
     console.log(`Debug>Search Error: ${err.message}`);
-    responses.textContent = 'Error: Couldnt Load Results'; // AC4 & AC11
+    if (responseElm) { // AC4 & AC11
+      responseElm.textContent = 'Error: Couldnt Load Results';
+    }
   }
 }
 
 var responseElm = document.getElementById('responses');
+
 function displaySearch(data) {
   if (!responseElm) {
     console.log('Error: Unable to get "responses".');
     return;
   }
 
-  // AC1 & AC2: Matches Found - This version only shows raw JSON text
-  // AC3: No Macthes - Explicit Message instead of a blank/empty display
-  // textContent for now
+  responseElm.innerHTML = '';
 
-  // condition ? valueIfTrue : valueIfFalse
-  // condition: if data.length == 0
-  // valueIfTrue: Display 'No Cities Found'
-  // valueIfFalse: Convert 'data' into formatted JSON and display
-  responseElm.textContent = data.length == 0 ? 'No Cities Found' : JSON.stringify(data, null, 2) 
+  if (data.length === 0) {
+    responseElm.textContent = 'No Cities Found';
+    return;
+  }
+
+  data.forEach(function (city) {
+    var cityBlock = document.createElement('div');
+    cityBlock.className = 'city-result border rounded p-3 mb-3 bg-light';
+
+    for (var key in city) {
+      if (!Object.prototype.hasOwnProperty.call(city, key)) {
+        continue;
+      }
+
+      var line = document.createElement('div');
+      line.textContent = key + ': ' + city[key];
+      cityBlock.appendChild(line);
+    }
+
+    responseElm.appendChild(cityBlock);
+  });
 }
 
 function encodeHTML(text) {
