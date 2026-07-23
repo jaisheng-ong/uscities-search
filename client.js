@@ -68,11 +68,15 @@ function displaySearch(data) {
     console.log('Error: Unable to get "responses".');
     return;
   }
+  // AC1 & AC2: Matches Found - This version only shows raw JSON text
+  // AC3: No Macthes - Explicit Message instead of a blank/empty display
+  // textContent for now
 
   // condition ? valueIfTrue : valueIfFalse
-  // condition: if typeof v == 'string'
-  // valueIfTrue: Run through DOMPurify.sanitize(v)
-  // valueIfFalse: Return empty string
+  // condition: if data.length == 0
+  // valueIfTrue: Display 'No Cities Found'
+  // valueIfFalse: Convert 'data' into formatted JSON and display
+  responseElm.textContent = data.length == 0 ? 'No Cities Found' : JSON.stringify(data, null, 2) 
 }
 // AC9/AC10: sanitize every field before it is rendered as HTML
 function data_sanitize(v) {
@@ -96,8 +100,6 @@ function json2htmltable(data) {
 
   return "<table><tr><th>City</th><th>State</th><th>Zips</th></tr>" + rows + "</table>";
 }
-
-
 
 function encodeHTML(text) {
   return String(text)
