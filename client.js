@@ -24,7 +24,7 @@ searchInput.addEventListener('keyup', function (e) {
   }
   clearTimeout(debounceTimer);
   var rawQuery = searchInput.value.trim();
-  if (rawQuery < 2) { // AC5: At least 2 chars before suggesting
+  if (rawQuery.length < 2) { // AC5: At least 2 chars before suggesting
     return;
   }
   debounceTimer = setTimeout(performSearch, 300) // AC07: debouce ~300ms after last keystroke
